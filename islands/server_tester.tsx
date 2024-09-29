@@ -72,7 +72,7 @@ async function testRequest(): Promise<
 
         return await response.json();
     } catch (error) {
-        return { error };
+        return { error: error.toString() };
     }
 }
 
