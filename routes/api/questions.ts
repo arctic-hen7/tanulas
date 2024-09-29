@@ -28,7 +28,7 @@ const MAX_NOTES_LENGTH = 1000;
 // doing it out here, which is a little bit faster (we don't have to make a new one every time there's a
 // request). We'll only create a client if we have an API key.
 let client = null;
-if (!Deno.env.get("OPENAI_API_KEY")) {
+if (Deno.env.get("OPENAI_API_KEY")) {
   client = new OpenAI();
 }
 
