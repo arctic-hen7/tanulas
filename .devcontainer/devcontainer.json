@@ -1,11 +1,7 @@
 {
     "name": "Tanulas",
-    "image": "denoland/deno",
     "forwardPorts": [8000],
-    "settings": {
-        "terminal.integrated.shell.linux": "/bin/bash",
+    "features": {
+      "ghcr.io/devcontainers-community/features/deno": {}
     },
-    "extensions": [
-        "denoland.vscode-deno"
-    ]
 }
