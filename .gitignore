@@ -1,0 +1,7 @@
+# This tells "Git", a version-control system (like track changes for many files) what to ignore.
+# You probably won't need to change anything in here.
+
+# Fresh build directory
+_fresh/
+# npm dependencies
+node_modules/

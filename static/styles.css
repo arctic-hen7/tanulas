@@ -1,0 +1,5 @@
+/* You can put custom styling in here if you want, but we'll just use Tailwind for most things. */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
