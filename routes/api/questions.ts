@@ -26,8 +26,11 @@ const MAX_NOTES_LENGTH = 1000;
 // We're going to use a library from OpenAI to make requests to an AI. This requires setting up a client first,
 // which we do here. We could do this inside our `handler`, but we can also share it across all requests by
 // doing it out here, which is a little bit faster (we don't have to make a new one every time there's a
-// request).
-const client = new OpenAI();
+// request). We'll only create a client if we have an API key.
+let client = null;
+if (!Deno.env.get("OPENAI_API_KEY")) {
+  client = new OpenAI();
+}
 
 // This is our handler (see token.ts for an explanation of what this does).
 export const handler = async (
@@ -49,6 +52,12 @@ export const handler = async (
   // Log to the console the request so we can see what people are asking for (good for making sure no-one
   // is abusing the workshop environment)!
   console.log(`${email}: ${body.notes}`);
+
+  // If there was no API key given in the environment variables, we won't have a client, so we can't make
+  // requests to the OpenAI API. We'll return a 500 "internal server error" response.
+  if (!client) {
+    return new Response("No OpenAI API key", { status: 500 });
+  }
 
   // This uses the OpenAI library, we'll go through it step-by-step.
   const chatCompletion = await client.chat.completions.create({
