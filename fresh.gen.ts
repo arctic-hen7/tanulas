@@ -9,9 +9,11 @@ import * as $api_questions from "./routes/api/questions.ts";
 import * as $api_token from "./routes/api/token.ts";
 import * as $config from "./routes/config.ts";
 import * as $index from "./routes/index.tsx";
+import * as $prebuilt from "./routes/prebuilt.tsx";
 import * as $tester from "./routes/tester.tsx";
 import * as $types from "./routes/types.ts";
-import * as $server_tester from "./islands/server_tester.tsx";
+import * as $makeQuestions from "./islands/makeQuestions.tsx";
+import * as $serverTester from "./islands/serverTester.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -23,11 +25,13 @@ const manifest = {
     "./routes/api/token.ts": $api_token,
     "./routes/config.ts": $config,
     "./routes/index.tsx": $index,
+    "./routes/prebuilt.tsx": $prebuilt,
     "./routes/tester.tsx": $tester,
     "./routes/types.ts": $types,
   },
   islands: {
-    "./islands/server_tester.tsx": $server_tester,
+    "./islands/makeQuestions.tsx": $makeQuestions,
+    "./islands/serverTester.tsx": $serverTester,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

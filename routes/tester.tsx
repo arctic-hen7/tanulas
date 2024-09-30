@@ -1,4 +1,4 @@
-import ServerTester from "../islands/server_tester.tsx";
+import ServerTester from "../islands/serverTester.tsx";
 
 export default function Tester() {
     return (
