@@ -1,9 +1,7 @@
-import MakeQuestions from "../islands/makeQuestions.tsx";
+// Same as the index page we're building, just at `/prebuilt` instead.
+import MakeQuestions from "../islands/makeQuestionsPrebuilt.tsx";
 
 export default function Prebuilt() {
-    return (
-        <div>
-            <MakeQuestions />
-        </div>
-    );
+    // Here, we just return the contents of the island, it does everything for us.
+    return <MakeQuestions />;
 }

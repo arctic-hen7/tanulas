@@ -13,6 +13,7 @@ import * as $prebuilt from "./routes/prebuilt.tsx";
 import * as $tester from "./routes/tester.tsx";
 import * as $types from "./routes/types.ts";
 import * as $makeQuestions from "./islands/makeQuestions.tsx";
+import * as $makeQuestionsPrebuilt from "./islands/makeQuestionsPrebuilt.tsx";
 import * as $serverTester from "./islands/serverTester.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -31,6 +32,7 @@ const manifest = {
   },
   islands: {
     "./islands/makeQuestions.tsx": $makeQuestions,
+    "./islands/makeQuestionsPrebuilt.tsx": $makeQuestionsPrebuilt,
     "./islands/serverTester.tsx": $serverTester,
   },
   baseUrl: import.meta.url,

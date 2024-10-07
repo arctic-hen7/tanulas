@@ -1,3 +1,5 @@
+// See `routes/tester.tsx` for what this does.
+
 import { computed, signal } from "@preact/signals";
 import { SERVER_TOKEN, SERVER_URL } from "../routes/config.ts";
 import { QuestionsResponse } from "../routes/types.ts";
@@ -52,7 +54,6 @@ async function testRequest(): Promise<
         status?: number;
     }
 > {
-    // Make a test request to the server
     const data = {
         notes: "- WW2 started in 1939 and finished in 1945",
     };

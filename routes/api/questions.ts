@@ -9,20 +9,14 @@ import OpenAI from "npm:openai";
 import { verifyToken } from "./token.ts";
 import { QuestionsResponse } from "../types.ts";
 
-// This is a guiding message we give to the AI so it knows what we want.
-const SYSTEM_MESSAGE =
-    `You are a helpful AI assistant who will be given a series of notes from the user, and you should produce a series of question/answer pairs for them to create flashcards from to revise for the topic of the notes. Each
-    question should be short and to the point, and each answer should be a concise, *correct* response. Do *not*
-    ask questions that are beyond the scope of the notes provided, and do not go beyond the scope of the notes
-    in your answers. If your knowledge conflicts with what the notes say is correct, go with the notes over
-    your own knowledge, but note that you believe the answer to be incorrect by setting the "unsure" property
-    to true.
-
-    For all of this, produce a JSON array of objects, each with a "question" and "answer" property (and "unsure"
-    if necessary).`;
+// This is a guiding message we give to the AI so it knows what we want, and we read it from the file
+// `system_message.txt`.
+const SYSTEM_MESSAGE = await Deno.readTextFile(
+    "routes/api/system_message.txt",
+);
 // Maximum length in characters that we'll allow from users. You can set this as high as you like for your
 // own use.
-const MAX_NOTES_LENGTH = 1000;
+const MAX_NOTES_LENGTH = 2500;
 
 // We're going to use a library from OpenAI to make requests to an AI. This requires setting up a client first,
 // which we do here. We could do this inside our `handler`, but we can also share it across all requests by

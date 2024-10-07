@@ -8,6 +8,6 @@ export interface QuestionsResponse {
 export interface Pair {
   question: string;
   answer: string;
-  // The question mark means this is unsure.
+  // The question mark means this isn't required (it might not be present).
   unsure?: boolean;
 }

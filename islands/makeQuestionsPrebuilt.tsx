@@ -1,3 +1,6 @@
+// This island is the pre-built version of what we'll create in the workshop. Looking in here is
+// cheating!! (But if you missed something, go ahead ;)
+
 import { computed, signal } from "@preact/signals";
 import { Pair, QuestionsResponse } from "../routes/types.ts";
 import { SERVER_TOKEN, SERVER_URL } from "../routes/config.ts";
@@ -37,7 +40,7 @@ export default function MakeQuestions() {
             // We're waiting on the server.
             return <p class="text-neutral-700 italic">Loading...</p>;
         } else {
-            // Nothing has happened yet, just let the user know wh100100%vhat this is for.
+            // Nothing has happened yet, just let the user know what this is for.
             return (
                 <p class="text-neutral-700 italic">
                     Revision questions will appear here.
@@ -48,10 +51,31 @@ export default function MakeQuestions() {
 
     // This is a miniature function we can call when the user presses the button to send their notes
     // to the server. This should call `getQuestions()` and update the state accordingly.
-    const handleClick = () => {
-        // TODO: Implement this function to make your app work!
-        state.value = State.ERROR;
-        error.value = "Haven't finished the app yet!";
+    const handleClick = async () => {
+        // We don't want to waste sending nothing to the server, so do a pre-flight check that we
+        // actually have some contents.
+        if (notes.value === "") {
+            error.value = "No notes provided!";
+            state.value = State.ERROR;
+        } else {
+            // Before we send our data to the server, tell the user that something is actually
+            // happening.
+            state.value = State.LOADING;
+
+            // `getQuestions` is asynchronous, meaning it doesn't return a value right away. But this
+            // mini-function is also asynchronous, so we can use `await` to stop until it gets back
+            // to us.
+            const res = await getQuestions(notes.value);
+            // `res` is an object, either of questions or an error. We can check if it has a property
+            // `error` to know which one it is.
+            if ("error" in res) {
+                state.value = State.ERROR;
+                error.value = res.error;
+            } else {
+                state.value = State.QUESTIONS;
+                questions.value = res.pairs;
+            }
+        }
     };
 
     // This defines a basic layout: we have a parent section that's the height of the whole screen, and
@@ -74,29 +98,27 @@ export default function MakeQuestions() {
     // of the total width --- so we position them on each half of the page! The div has `{displayState}`
     // inside it, which means it will dynamically display the contents of `displayState`, which, as above,
     // update with the state.
-    //
-    // TODO: Fill in the blank classes to make this look nice!
     return (
         <div class="h-screen flex flex-col">
             <div class="flex flex-col items-center">
-                <h1 class=" ">Tanulas</h1>
-                <p class=" ">
+                <h1 class="text-4xl">Tanulas</h1>
+                <p class="py-1">
                     Press the button to make some revision questions!
                 </p>
                 <button
-                    class=" "
+                    class="bg-green-500 p-2 rounded-md text-white hover:bg-white hover:text-green-500 border-transparent border hover:border-green-500 transition-colors"
                     onClick={handleClick}
                 >
                     Make questions
                 </button>
             </div>
-            <div class="h-full flex flex-row ">
+            <div class="h-full flex flex-row py-4">
                 <TrackedTextarea
-                    class="h-full w-full "
+                    class="h-full w-full border border-green-500 mx-4 p-2 text-lg rounded-md"
                     placeholder="Add your notes here."
                     value={notes}
                 />
-                <div class="h-full w-full ">
+                <div class="h-full w-full border border-black mx-4 p-2 text-lg rounded-md">
                     {displayState}
                 </div>
             </div>
